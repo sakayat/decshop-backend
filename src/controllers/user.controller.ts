@@ -143,3 +143,66 @@ export const getUserProfile = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { firstName, lastName, email, password, role, storeInfo } = req.body;
+
+    const userId = req.user?._id;
+
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+
+    if (firstName) {
+      user.firstName = firstName;
+    }
+
+    if (firstName) {
+      user.lastName = lastName;
+    }
+
+    if (password) {
+      user.password = password;
+    }
+
+    if (user.role === "seller" && storeInfo) {
+      user.storeInfo = {
+        name: storeInfo.name,
+        description: storeInfo.description,
+        logo: storeInfo.logo,
+      };
+    }
+
+    const updateUser = await user.save();
+
+    const userData = {
+      _id: updateUser._id,
+      firstName: updateUser.firstName,
+      lastName: updateUser.lastName,
+      email: updateUser.email,
+      role: updateUser.role,
+    };
+
+    if (updateUser.role === "seller" && updateUser.storeInfo) {
+      Object.assign(userData, { storeInfo: updateUser.storeInfo });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: userData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+
