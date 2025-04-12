@@ -33,9 +33,59 @@ export const registerUser = async (req: Request, res: Response) => {
       }
     );
     res.status(201).json({
+      success: true,
       message: "User registered successfully",
       user,
-      token
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "server error" });
+  }
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(401).json({ message: "User not found" });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid password" });
+      return;
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user._id,
+      },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      success: true,
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: "server error" });
