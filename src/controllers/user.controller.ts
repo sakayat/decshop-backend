@@ -108,3 +108,38 @@ export const logoutUser = async (req: Request, res: Response) => {
   });
 };
 
+export const getUserProfile = async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+
+    const userData = {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+    };
+
+    if (user.role === "seller" && user.storeInfo) {
+      Object.assign(userData, { storeInfo: user.storeInfo });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: userData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
