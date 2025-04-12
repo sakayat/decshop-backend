@@ -2,6 +2,15 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { IUser } from "../types/interface";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
+  }
+}
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -27,7 +36,7 @@ export const registerUser = async (req: Request, res: Response) => {
       {
         userId: user._id,
       },
-      process.env.JWT_SECRET!,
+      process.env.JWT_SECRET as string,
       {
         expiresIn: "1d",
       }
@@ -62,13 +71,9 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign(
-      {
-        userId: user._id,
-      },
-      process.env.JWT_SECRET!,
-      {
-        expiresIn: "1d",
-      }
+      { userId: user._id },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "30d" }
     );
 
     res.cookie("token", token, {
@@ -78,13 +83,13 @@ export const loginUser = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      user: {
+      data: {
         _id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
         role: user.role,
-        image: user.image,
+        token,
       },
     });
   } catch (error) {
@@ -102,3 +107,4 @@ export const logoutUser = async (req: Request, res: Response) => {
     message: "Logged out successfully",
   });
 };
+
