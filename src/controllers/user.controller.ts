@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/User";
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -22,9 +23,20 @@ export const registerUser = async (req: Request, res: Response) => {
       password: hashPassword,
     });
 
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "1d",
+      }
+    );
     res.status(201).json({
       message: "User registered successfully",
       user,
+      token
     });
   } catch (error) {
     res.status(500).json({ message: "server error" });
