@@ -1,6 +1,6 @@
 import  { Types } from "mongoose";
 
-export interface IUser extends Document {
+export interface IUser {
   _id: Types.ObjectId,
   firstName: string;
   lastName: string;
@@ -20,3 +20,18 @@ export interface IUser extends Document {
   updatedAt: Date;
 }
 
+export interface IProduct  {
+  name: string;
+  description: string;
+  price: number;
+  discountPrice?: number;
+  discountExpiresAt?: Date;
+  category: Types.ObjectId;
+  images: string[];
+  videoUrl?: string;
+  seller: Types.ObjectId;
+  stock: number;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
