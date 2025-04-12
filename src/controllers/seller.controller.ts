@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import multer from "multer";
 import Product from "../models/Product";
 
 export const createProduct = async (req: Request, res: Response) => {
@@ -36,5 +37,74 @@ export const createProduct = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({ message: "server error" });
+  }
+};
+
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+      return;
+    }
+
+    const {
+      name,
+      description,
+      price,
+      discountPrice,
+      discountExpiresAt,
+      category,
+      videoUrl,
+      stock,
+    } = req.body;
+
+    if (name) {
+      product.name = name;
+    }
+
+    if (description) {
+      product.description = description;
+    }
+
+    if (price) {
+      product.price = price;
+    }
+
+    if (discountPrice) {
+      product.discountPrice = discountPrice;
+    }
+
+    if (discountExpiresAt) {
+      product.discountExpiresAt = discountExpiresAt;
+    }
+
+    if (category) {
+      product.category = category;
+    }
+
+    if (videoUrl) {
+      product.videoUrl = videoUrl;
+    }
+    if (stock) {
+      product.stock = stock;
+    }
+
+    if (req.files && Array.isArray(req.files)) {
+      const images = (req.files as any[]).map((file) => file.filename);
+      product.images = images;
+    }
+
+    const updatedProduct = await product.save();
+
+    res.status(200).json({ success: true, data: updatedProduct });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
   }
 };

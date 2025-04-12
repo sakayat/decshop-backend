@@ -44,3 +44,15 @@ export const productSchema = z.object({
   videoUrl: z.string().optional(),
   stock: z.number().min(1, "Stock is required"),
 });
+
+export const productUpdateSchema = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  price: z.number().optional(),
+  discountPrice: z.number().optional(),
+  discountExpiresAt: z.date().optional(),
+  category: z.string().optional(),
+  videoUrl: z.string().optional(),
+  stock: z.number().optional(),
+  isActive: z.boolean().optional(),
+});
