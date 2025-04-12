@@ -1,7 +1,7 @@
-import  { Types } from "mongoose";
+import { Types } from "mongoose";
 
 export interface IUser {
-  _id: Types.ObjectId,
+  _id: Types.ObjectId;
   firstName: string;
   lastName: string;
   email: string;
@@ -20,7 +20,7 @@ export interface IUser {
   updatedAt: Date;
 }
 
-export interface IProduct  {
+export interface IProduct {
   name: string;
   slug: string;
   description: string;
@@ -33,6 +33,28 @@ export interface IProduct  {
   seller: Types.ObjectId;
   stock: number;
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface OrderItem {
+  product: Types.ObjectId;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+export interface IOrder {
+  user: Types.ObjectId;
+  seller: Types.ObjectId;
+  items: OrderItem[];
+  shippingAddress: string;
+  paymentMethod: string;
+  itemsPrice: number;
+  totalPrice: number;
+  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+  isApprovedBySeller: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
