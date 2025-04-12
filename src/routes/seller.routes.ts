@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { createProduct, updateProduct } from "../controllers/seller.controller";
+import {
+  createProduct,
+  deleteProduct,
+  updateProduct,
+} from "../controllers/seller.controller";
 import { authorize, protect } from "../middlewares/auth.middleware";
 import { validate } from "../middlewares/validate";
 import { productSchema, productUpdateSchema } from "../utils/validationSchema";
@@ -26,5 +30,7 @@ router.put(
   validate(productUpdateSchema),
   updateProduct
 );
+
+router.delete("/delete-product/:id", protect, deleteProduct);
 
 export default router;
