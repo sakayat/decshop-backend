@@ -31,4 +31,16 @@ export const userLoginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-
+export const productSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Product name is required")
+    .max(100, "Product name cannot exceed 100 characters"),
+  description: z.string().min(1, "Product description is required"),
+  price: z.number().positive("Price must be a positive number"),
+  discountPrice: z.number().optional(),
+  discountExpiresAt: z.date().optional(),
+  category: z.string().min(1, "Category ID is required"),
+  videoUrl: z.string().optional(),
+  stock: z.number().min(1, "Stock is required"),
+});

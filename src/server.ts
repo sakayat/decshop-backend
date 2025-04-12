@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import path from "path";
 import connectDB from "./config/database";
 import userRoutes from "./routes/user.routes"; 
+import sellerRoutes from "./routes/seller.routes"; 
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/api/users", userRoutes);
+app.use("/api/seller", sellerRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
