@@ -42,9 +42,6 @@ const UserSchema = new mongoose.Schema<IUser>(
       description: {
         type: String,
       },
-      logo: {
-        type: String,
-      },
     },
   },
   {

@@ -126,7 +126,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
-      createdAt: user.createdAt,
+      image: user.image,
     };
 
     if (user.role === "seller" && user.storeInfo) {
@@ -146,7 +146,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const { firstName, lastName, email, password, role, storeInfo } = req.body;
+    const { firstName, lastName, email, password, storeInfo } = req.body;
 
     const userId = req.user?._id;
 
@@ -169,14 +169,17 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 
     if (password) {
-      user.password = password;
+      user.password = await bcrypt.hash(password, 10);
+    }
+
+    if (req.file) {
+      user.image = req.file.filename;
     }
 
     if (user.role === "seller" && storeInfo) {
       user.storeInfo = {
         name: storeInfo.name,
         description: storeInfo.description,
-        logo: storeInfo.logo,
       };
     }
 
@@ -188,6 +191,7 @@ export const updateUser = async (req: Request, res: Response) => {
       lastName: updateUser.lastName,
       email: updateUser.email,
       role: updateUser.role,
+      image: updateUser.image,
     };
 
     if (updateUser.role === "seller" && updateUser.storeInfo) {
@@ -204,5 +208,3 @@ export const updateUser = async (req: Request, res: Response) => {
     });
   }
 };
-
-
