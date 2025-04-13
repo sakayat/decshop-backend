@@ -156,7 +156,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const { firstName, lastName, email, password, storeInfo } = req.body;
+    const { firstName, lastName, password, storeInfo } = req.body;
 
     const userId = req.user?._id;
 

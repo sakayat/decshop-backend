@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Product from "../models/Product";
 import Order from "../models/Order";
 import mongoose from "mongoose";
+import Category from "../models/Category";
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
@@ -235,3 +236,36 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
   }
 };
 
+export const createCategory = async (req: Request, res: Response) => {
+  // try {
+    
+  // } catch (error) {
+  //   res.status(500).json({
+  //     message: "server error",
+  //   });
+  // }
+
+  const { name } = req.body;
+
+    const image = req.file?.filename;
+
+    const exists = await Category.findOne({ name });
+
+    if (exists) {
+      res.status(400).json({
+        success: false,
+        message: "category name already exists",
+      });
+      return;
+    }
+
+    const category = await Category.create({
+      name,
+      image,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: category,
+    });
+};

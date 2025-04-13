@@ -48,3 +48,9 @@ export const orderCreateSchema = z.object({
   shippingAddress: z.string().min(1, "Shipping address is required"),
   paymentMethod: z.string().optional(),
 });
+
+export const categorySchema = z.object({
+  name: z
+    .string({ required_error: "Category name is require" })
+    .min(1, "Category name is require"),
+});
