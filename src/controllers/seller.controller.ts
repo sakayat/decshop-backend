@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Product from "../models/Product";
 import Order from "../models/Order";
+import mongoose from "mongoose";
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
@@ -153,6 +154,14 @@ export const getSellerProducts = async (req: Request, res: Response) => {
 
 export const approveOrder = async (req: Request, res: Response) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid order id",
+      });
+      return;
+    }
+
     const order = await Order.findById(req.params.id);
 
     if (!order) {
@@ -162,6 +171,15 @@ export const approveOrder = async (req: Request, res: Response) => {
       });
       return;
     }
+
+    if (order.seller.toString() !== req.user?._id.toString()) {
+      res.status(403).json({
+        success: false,
+        message: "Not authorized to update this order",
+      });
+      return;
+    }
+
     order.isApprovedBySeller = true;
 
     await order.save();
