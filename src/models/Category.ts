@@ -4,6 +4,10 @@ import slugify from "slugify";
 
 const CategorySchema = new mongoose.Schema<ICategory>(
   {
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     name: {
       type: String,
       unique: true,

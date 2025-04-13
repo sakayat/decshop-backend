@@ -4,6 +4,7 @@ import {
   createCategory,
   createProduct,
   deleteProduct,
+  getSellerCategories,
   getSellerProducts,
   updateCategory,
   updateOrderStatus,
@@ -48,11 +49,11 @@ router.post(
   upload.single("image"),
   createCategory
 );
-
 router.put(
   "/update-category/:slug",
   upload.single("image"),
   updateCategory
 );
+router.get("/categories", getSellerCategories);
 
 export default router;

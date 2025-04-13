@@ -60,6 +60,7 @@ export interface IOrder {
 
 export interface ICategory {
   _id: Types.ObjectId;
+  seller: Types.ObjectId;
   name: string;
   slug: string;
   image?: string;

@@ -255,6 +255,7 @@ export const createCategory = async (req: Request, res: Response) => {
     const category = await Category.create({
       name,
       image,
+      seller: req.user?._id,
     });
 
     res.status(201).json({
@@ -293,6 +294,21 @@ export const updateCategory = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       data: category,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const getSellerCategories = async (req: Request, res: Response) => {
+  try {
+    const categories = await Category.find({ seller: req.user?._id });
+
+    res.status(200).json({
+      success: true,
+      data: categories,
     });
   } catch (error) {
     res.status(500).json({
