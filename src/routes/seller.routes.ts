@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  approveOrder,
   createProduct,
   deleteProduct,
   getSellerProducts,
@@ -35,5 +36,6 @@ router.put(
 router.delete("/delete-product/:id", protect, deleteProduct);
 
 router.get("/products", getSellerProducts);
+router.post("/order/:id/approve", approveOrder);
 
 export default router;

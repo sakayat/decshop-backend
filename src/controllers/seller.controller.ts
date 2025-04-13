@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Product from "../models/Product";
+import Order from "../models/Order";
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
@@ -142,6 +143,32 @@ export const getSellerProducts = async (req: Request, res: Response) => {
       success: true,
       total,
       data: products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const approveOrder = async (req: Request, res: Response) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+      return;
+    }
+    order.isApprovedBySeller = true;
+
+    await order.save();
+
+    res.status(200).json({
+      success: true,
+      data: order,
     });
   } catch (error) {
     res.status(500).json({
