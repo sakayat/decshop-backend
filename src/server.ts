@@ -7,6 +7,7 @@ import connectDB from "./config/database";
 import userRoutes from "./routes/user.routes";
 import sellerRoutes from "./routes/seller.routes";
 import orderRoutes from "./routes/order.routes";
+import adminRoutes from "./routes/admin.routes";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/users", userRoutes);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);

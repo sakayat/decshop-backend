@@ -14,7 +14,6 @@ export interface IUser {
   storeInfo?: {
     name?: string;
     description?: string;
-    logo?: string;
   };
   createdAt: Date;
   updatedAt: Date;

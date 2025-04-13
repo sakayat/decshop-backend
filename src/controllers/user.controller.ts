@@ -63,6 +63,14 @@ export const loginUser = async (req: Request, res: Response) => {
       return;
     }
 
+    if (user.status !== "active") {
+      res.status(401).json({
+        success: false,
+        message: `Your account has been ${user.status}.`,
+      });
+      return;
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -139,7 +147,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Server error",
+      message: "server error",
     });
   }
 };
@@ -181,6 +189,18 @@ export const updateUser = async (req: Request, res: Response) => {
         name: storeInfo.name,
         description: storeInfo.description,
       };
+    }
+
+    const existStore = await User.findOne({
+      "storeInfo.name": req.body.storeInfo.name,
+    });
+
+    if (existStore) {
+      res.status(400).json({
+        success: false,
+        message: "store name already exists. please choose a different name",
+      });
+      return;
     }
 
     const updateUser = await user.save();
