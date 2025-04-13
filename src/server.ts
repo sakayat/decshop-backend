@@ -8,6 +8,7 @@ import userRoutes from "./routes/user.routes";
 import sellerRoutes from "./routes/seller.routes";
 import orderRoutes from "./routes/order.routes";
 import adminRoutes from "./routes/admin.routes";
+import categoryRoutes from "./routes/category.routes";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/category", categoryRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);

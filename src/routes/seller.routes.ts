@@ -56,4 +56,5 @@ router.put(
 );
 router.get("/categories", getSellerCategories);
 
+
 export default router;

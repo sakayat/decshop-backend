@@ -316,3 +316,4 @@ export const getSellerCategories = async (req: Request, res: Response) => {
     });
   }
 };
+
