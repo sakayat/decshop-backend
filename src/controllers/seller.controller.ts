@@ -130,3 +130,22 @@ export const deleteProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getSellerProducts = async (req: Request, res: Response) => {
+  try {
+    const sellerId = req.user!._id;
+    const total = await Product.countDocuments({ seller: sellerId });
+    const products = await Product.find({ seller: sellerId }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json({
+      success: true,
+      total,
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};

@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createProduct,
   deleteProduct,
+  getSellerProducts,
   updateProduct,
 } from "../controllers/seller.controller";
 import { authorize, protect } from "../middlewares/auth.middleware";
@@ -32,5 +33,7 @@ router.put(
 );
 
 router.delete("/delete-product/:id", protect, deleteProduct);
+
+router.get("/products", getSellerProducts);
 
 export default router;
