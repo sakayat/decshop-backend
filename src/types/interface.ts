@@ -62,7 +62,7 @@ export interface ICategory {
   _id: Types.ObjectId;
   name: string;
   slug: string;
-  image: string;
+  image?: string;
   createdAt: Date;
   updatedAt: Date;
 }

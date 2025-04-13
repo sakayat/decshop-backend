@@ -257,6 +257,39 @@ export const createCategory = async (req: Request, res: Response) => {
       image,
     });
 
+    res.status(201).json({
+      success: true,
+      data: category,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const updateCategory = async (req: Request, res: Response) => {
+  try {
+    const { name } = req.body;
+
+    const category = await Category.findOne({ slug: req.params.slug });
+
+    if (!category) {
+      res.status(404).json({
+        success: false,
+        message: "Category not found",
+      });
+      return;
+    }
+
+    if (category.name) {
+      category.name = name;
+    }
+
+    if (req.file) {
+      category.image = req.file.filename;
+    }
+
     res.status(200).json({
       success: true,
       data: category,

@@ -5,6 +5,7 @@ import {
   createProduct,
   deleteProduct,
   getSellerProducts,
+  updateCategory,
   updateOrderStatus,
   updateProduct,
 } from "../controllers/seller.controller";
@@ -46,6 +47,12 @@ router.post(
   validate(categorySchema),
   upload.single("image"),
   createCategory
+);
+
+router.put(
+  "/update-category/:slug",
+  upload.single("image"),
+  updateCategory
 );
 
 export default router;
