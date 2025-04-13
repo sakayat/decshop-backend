@@ -1,11 +1,12 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import cookieParser from 'cookie-parser';
+import cookieParser from "cookie-parser";
 import path from "path";
 import connectDB from "./config/database";
-import userRoutes from "./routes/user.routes"; 
-import sellerRoutes from "./routes/seller.routes"; 
+import userRoutes from "./routes/user.routes";
+import sellerRoutes from "./routes/seller.routes";
+import orderRoutes from "./routes/order.routes";
 
 dotenv.config();
 
@@ -17,10 +18,11 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/users", userRoutes);
 app.use("/api/seller", sellerRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);

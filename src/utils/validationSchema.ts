@@ -56,3 +56,14 @@ export const productUpdateSchema = z.object({
   stock: z.number().optional(),
   isActive: z.boolean().optional(),
 });
+
+export const orderItemSchema = z.object({
+  productId: z.string().min(1, "Product ID is required"),
+  quantity: z.number().int().min(1, "Quantity must be at least 1"),
+});
+
+export const orderCreateSchema = z.object({
+  items: z.array(orderItemSchema).min(1, "At least one item is required"),
+  shippingAddress: z.string().min(1, "Shipping address is required"),
+  paymentMethod: z.string().optional(),
+});
