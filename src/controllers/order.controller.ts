@@ -47,3 +47,27 @@ export const createOrder = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getMyOrders = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+
+    const orders = await Order.find({ user: req.user._id });
+
+    res.status(200).json({
+      success: true,
+      count: orders.length,
+      data: orders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
