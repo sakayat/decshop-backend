@@ -237,15 +237,8 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
 };
 
 export const createCategory = async (req: Request, res: Response) => {
-  // try {
-    
-  // } catch (error) {
-  //   res.status(500).json({
-  //     message: "server error",
-  //   });
-  // }
-
-  const { name } = req.body;
+  try {
+    const { name } = req.body;
 
     const image = req.file?.filename;
 
@@ -268,4 +261,9 @@ export const createCategory = async (req: Request, res: Response) => {
       success: true,
       data: category,
     });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
 };
