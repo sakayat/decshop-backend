@@ -19,7 +19,6 @@ router.use(protect, authorize("seller"));
 
 router.post(
   "/create-product",
-  protect,
   upload.array("images", 4),
   validate(productSchema),
   createProduct
@@ -27,14 +26,13 @@ router.post(
 
 router.put(
   "/update-product/:id",
-  protect,
   upload.array("images", 4),
   multerErrorHandler,
   validate(productUpdateSchema),
   updateProduct
 );
 
-router.delete("/delete-product/:id", protect, deleteProduct);
+router.delete("/delete-product/:id", deleteProduct);
 
 router.get("/products", getSellerProducts);
 router.post("/order/:id/approve", approveOrder);
