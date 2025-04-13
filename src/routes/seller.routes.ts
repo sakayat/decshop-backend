@@ -4,6 +4,7 @@ import {
   createProduct,
   deleteProduct,
   getSellerProducts,
+  updateOrderStatus,
   updateProduct,
 } from "../controllers/seller.controller";
 import { authorize, protect } from "../middlewares/auth.middleware";
@@ -37,5 +38,7 @@ router.delete("/delete-product/:id", protect, deleteProduct);
 
 router.get("/products", getSellerProducts);
 router.post("/order/:id/approve", approveOrder);
+
+router.put("/order/:id/status", updateOrderStatus);
 
 export default router;

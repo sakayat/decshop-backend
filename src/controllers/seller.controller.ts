@@ -194,3 +194,43 @@ export const approveOrder = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const updateOrderStatus = async (req: Request, res: Response) => {
+  try {
+    const { status } = req.body;
+
+    if (!status) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid status",
+      });
+      return;
+    }
+
+    const order = await Order.findOne({
+      _id: req.params.id,
+      seller: req.user?._id,
+    });
+
+    if (!order) {
+      res.status(400).json({
+        success: false,
+        message: "Order not found or not authorized",
+      });
+      return;
+    }
+
+    order.status = status;
+
+    await order.save();
+
+    res.status(200).json({
+      success: true,
+      data: order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
