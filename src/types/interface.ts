@@ -57,3 +57,12 @@ export interface IOrder {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface ICategory {
+  _id: Types.ObjectId;
+  name: string;
+  slug: string;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

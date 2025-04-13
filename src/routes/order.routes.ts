@@ -6,7 +6,7 @@ import { orderCreateSchema } from "../utils/validationSchema";
 
 const router = Router();
 
-router.post("/", protect, validate(orderCreateSchema), createOrder);
+router.post("/", protect, createOrder);
 router.get("/my-orders", protect, getMyOrders);
 
 export default router;

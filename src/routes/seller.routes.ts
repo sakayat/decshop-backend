@@ -33,10 +33,8 @@ router.put(
 );
 
 router.delete("/delete-product/:id", deleteProduct);
-
 router.get("/products", getSellerProducts);
 router.post("/order/:id/approve", approveOrder);
-
 router.put("/order/:id/status", updateOrderStatus);
 
 export default router;

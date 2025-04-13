@@ -22,6 +22,7 @@ const UserSchema = new mongoose.Schema<IUser>(
     },
     status: {
       type: String,
+      enum: ["active", "banned", "suspended"],
       default: "active",
     },
     image: {
