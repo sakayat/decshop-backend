@@ -33,14 +33,18 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     const token = jwt.sign(
-      {
-        userId: user._id,
-      },
+      { userId: user._id },
       process.env.JWT_SECRET as string,
-      {
-        expiresIn: "1d",
-      }
+      { expiresIn: "1d" }
     );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -189,20 +193,21 @@ export const updateUser = async (req: Request, res: Response) => {
     if (user.role === "seller" && storeInfo) {
       user.storeInfo = {
         name: storeInfo.name,
-        description: storeInfo.description,
       };
     }
 
-    const existStore = await User.findOne({
-      "storeInfo.name": req.body.storeInfo.name,
-    });
-
-    if (existStore) {
-      res.status(400).json({
-        success: false,
-        message: "store name already exists. please choose a different name",
+    if (user.role === "seller" && storeInfo) {
+      const existStore = await User.findOne({
+        "storeInfo.name": req.body.storeInfo?.name,
       });
-      return;
+
+      if (existStore) {
+        res.status(400).json({
+          success: false,
+          message: "store name already exists. please choose a different name",
+        });
+        return;
+      }
     }
 
     const updateUser = await user.save();
@@ -230,5 +235,3 @@ export const updateUser = async (req: Request, res: Response) => {
     });
   }
 };
-
-
