@@ -27,7 +27,6 @@ router.use(protect, authorize("seller"));
 router.post(
   "/create-product",
   upload.array("images", 4),
-  validate(productSchema),
   createProduct
 );
 
@@ -45,7 +44,6 @@ router.post("/order/:id/approve", approveOrder);
 router.put("/order/:id/status", updateOrderStatus);
 router.post(
   "/create-category",
-  validate(categorySchema),
   upload.single("image"),
   createCategory
 );

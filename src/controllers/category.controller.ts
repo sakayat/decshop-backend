@@ -43,3 +43,5 @@ export const getCategoryProducts = async (req: Request, res: Response) => {
     });
   }
 };
+
+

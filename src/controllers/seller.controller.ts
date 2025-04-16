@@ -5,41 +5,43 @@ import mongoose from "mongoose";
 import Category from "../models/Category";
 
 export const createProduct = async (req: Request, res: Response) => {
-  try {
-    const {
-      name,
-      description,
-      price,
-      discountPrice,
-      discountExpiresAt,
-      category,
-      videoUrl,
-      stock,
-    } = req.body;
+  // try {
+    
+  // } catch (error) {
+  //   res.status(500).json({ message: "server error" });
+  // }
 
-    const files = req.files as any[];
-    const images = files?.map((file) => file.filename);
+  const {
+    name,
+    description,
+    price,
+    discountPrice,
+    discountExpiresAt,
+    category,
+    videoUrl,
+    stock,
+  } = req.body;
 
-    const product = await Product.create({
-      name,
-      description,
-      price,
-      discountPrice,
-      discountExpiresAt,
-      category,
-      images,
-      videoUrl,
-      stock,
-      seller: req.user?._id,
-    });
+  const files = req.files as any[];
+  const images = files?.map((file) => file.filename);
 
-    res.status(201).json({
-      success: true,
-      product,
-    });
-  } catch (error) {
-    res.status(500).json({ message: "server error" });
-  }
+  const product = await Product.create({
+    name,
+    description,
+    price,
+    discountPrice,
+    discountExpiresAt,
+    category,
+    images,
+    videoUrl,
+    stock,
+    seller: req.user?._id,
+  });
+
+  res.status(201).json({
+    success: true,
+    product,
+  });
 };
 
 export const updateProduct = async (req: Request, res: Response) => {
@@ -242,15 +244,15 @@ export const createCategory = async (req: Request, res: Response) => {
 
     const image = req.file?.filename;
 
-    const exists = await Category.findOne({ name });
+    // const exists = await Category.findOne({ name });
 
-    if (exists) {
-      res.status(400).json({
-        success: false,
-        message: "category name already exists",
-      });
-      return;
-    }
+    // if (exists) {
+    //   res.status(400).json({
+    //     success: false,
+    //     message: "category name already exists",
+    //   });
+    //   return;
+    // }
 
     const category = await Category.create({
       name,
@@ -290,6 +292,8 @@ export const updateCategory = async (req: Request, res: Response) => {
     if (req.file) {
       category.image = req.file.filename;
     }
+
+    await category.save()
 
     res.status(200).json({
       success: true,
