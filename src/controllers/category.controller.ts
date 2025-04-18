@@ -44,4 +44,26 @@ export const getCategoryProducts = async (req: Request, res: Response) => {
   }
 };
 
+export const getCategoryBySlug = async (req: Request, res: Response) => {
+  const { slug } = req.params;
 
+  const category = await Category.findOne({ slug });
+
+  if (!category) {
+    res.status(404).json({
+      success: false,
+      message: "Category not found",
+    });
+    return;
+  }
+
+  res.status(200).json({
+    success: true,
+    data: {
+      _id: category._id,
+      name: category.name,
+      slug: category.slug,
+      image: category.image
+    },
+  });
+};
