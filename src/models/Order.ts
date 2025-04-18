@@ -27,9 +27,7 @@ const OrderSchema = new mongoose.Schema<IOrder>(
           type: Number,
           default: 1,
         },
-        image: {
-          type: String,
-        },
+        images: [{ type: String }],
       },
     ],
     totalPrice: {
@@ -48,7 +46,7 @@ const OrderSchema = new mongoose.Schema<IOrder>(
       enum: [
         "pending",
         "processing",
-        "out_for_delivery",
+        "shipped",
         "delivered",
         "completed",
         "cancelled",

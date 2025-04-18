@@ -215,7 +215,15 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
     if (!order) {
       res.status(400).json({
         success: false,
-        message: "Order not found or not authorized",
+        message: "Order not found",
+      });
+      return;
+    }
+
+    if (order.seller.toString() !== req.user?._id.toString()) {
+      res.status(403).json({
+        success: false,
+        message: "Not authorized to update this order",
       });
       return;
     }
@@ -227,6 +235,31 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       data: order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const getUserOrders = async (req: Request, res: Response) => {
+  try {
+    const orders = await Order.find({
+      seller: req.user?._id,
+    }).sort({ createdAt: -1 });
+
+    if (!orders) {
+      res.status(400).json({
+        success: false,
+        message: "Orders not found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: orders,
     });
   } catch (error) {
     res.status(500).json({
@@ -394,11 +427,11 @@ export const updatedProductImages = async (req: Request, res: Response) => {
     const newImages = files.map((file) => file.filename);
 
     if (product.images.length + files.length > 4) {
-       res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Cannot upload more than 4 images per product",
       });
-      return
+      return;
     }
 
     product.images = [...product.images, ...newImages];

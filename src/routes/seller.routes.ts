@@ -9,6 +9,7 @@ import {
   getProductBySlug,
   getSellerCategories,
   getSellerProducts,
+  getUserOrders,
   updateCategory,
   updatedProductImages,
   updateOrderStatus,
@@ -51,6 +52,7 @@ router.get("/products", getSellerProducts);
 router.get("/product/:slug", getProductBySlug);
 router.post("/order/:id/approve", approveOrder);
 router.put("/order/:id/status", updateOrderStatus);
+router.get("/user-orders", getUserOrders);
 router.post("/create-category", upload.single("image"), createCategory);
 router.put("/update-category/:slug", upload.single("image"), updateCategory);
 router.get("/categories", getSellerCategories);
