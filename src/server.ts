@@ -18,10 +18,16 @@ const port = process.env.PORT as string;
 
 connectDB();
 
-app.use(cors({
-  origin: ['http://localhost:3001',"http://localhost:3000"], 
-  credentials: true, 
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3001",
+      "http://localhost:3000",
+      "https://decshop-backend.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
