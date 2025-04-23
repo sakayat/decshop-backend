@@ -4,6 +4,6 @@ import { getProductDetails, getProducts } from "../controllers/product.controlle
 const router = Router();
 
 router.get("/", getProducts);
-router.get("/:slug", getProductDetails);
+router.get("/details/:slug", getProductDetails);
 
 export default router;

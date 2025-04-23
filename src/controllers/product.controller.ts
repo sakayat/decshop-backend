@@ -3,7 +3,7 @@ import Product from "../models/Product";
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).populate("category", "name slug");
 
     res.status(200).json({
       success: true,
@@ -18,11 +18,9 @@ export const getProducts = async (req: Request, res: Response) => {
 
 export const getProductDetails = async (req: Request, res: Response) => {
   try {
-    const slug = req.params.slug;
+    const {slug} = req.params;
 
-    const product = await Product.findOne({ slug })
-      .populate("category", "name")
-      .populate("seller", "firstName lastName");
+    const product = await Product.findOne({ slug }).populate("category", "name slug")
 
     if (!product) {
       res.status(404).json({

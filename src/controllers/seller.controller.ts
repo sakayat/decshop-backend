@@ -5,41 +5,35 @@ import mongoose from "mongoose";
 import Category from "../models/Category";
 
 export const createProduct = async (req: Request, res: Response) => {
-  // try {
-
-  // } catch (error) {
-  //   res.status(500).json({ message: "server error" });
-  // }
-
+ 
   const {
     name,
     description,
     price,
     discountPrice,
-    discountExpiresAt,
     category,
     videoUrl,
     stock,
   } = req.body;
 
-  const files = req.files as any[];
-  const images = files?.map((file) => file.filename);
+  const files = req.files as Express.Multer.File[] | undefined;
+  const images = files?.map((file) => file.filename) || [];
 
   const product = await Product.create({
     name,
     description,
     price,
     discountPrice,
-    discountExpiresAt,
     category,
-    images,
     videoUrl,
     stock,
+    images,
     seller: req.user?._id,
   });
 
   res.status(201).json({
     success: true,
+    message: 'Product created successfully',
     product,
   });
 };
