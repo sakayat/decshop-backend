@@ -2,12 +2,11 @@
   "name": "decshop-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.js",
+  "main": "server.js",
   "scripts": {
+    "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon",
-    "build": "node build.js && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --watch src --ext ts --exec \"npm run build && npm run start\""
   },
   "keywords": [],
   "author": "",
