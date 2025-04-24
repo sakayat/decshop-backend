@@ -20,7 +20,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: ["https://decshop-backend.onrender.com", "http://localhost:3000"],
+    origin: ["https://decshop-two.vercel.app", "http://localhost:3000"],
     credentials: true,
   })
 );
