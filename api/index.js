@@ -13,8 +13,7 @@ import productRoutes from "./routes/product.route";
 
 dotenv.config();
 
-const app: Express = express();
-const port = process.env.PORT as string;
+const app = express();
 
 connectDB();
 
@@ -36,6 +35,8 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/products", productRoutes);
 
-app.listen(port, () => {
-  console.log(`Server is running on ${port}`);
+app.get("/", (req, res) => {
+  res.json({ message: "DecShop API is running" });
 });
+
+export default app;
