@@ -18,6 +18,8 @@ import {
 import { authorize, protect } from "../middlewares/auth.middleware";
 import { upload } from "../middlewares/upload";
 import { multerErrorHandler } from "../middlewares/multerErrorHandler";
+import { validate } from "../middlewares/validate";
+import { productSchema } from "../utils/validationSchema";
 
 const router = Router();
 
@@ -26,6 +28,7 @@ router.use(protect, authorize("seller"));
 router.post(
   "/create-product",
   upload.array("images", 4),
+  validate(productSchema),
   multerErrorHandler,
   createProduct
 );
