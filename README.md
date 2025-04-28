@@ -61,9 +61,3 @@ npm run dev
 - `/api/admin` - Admin dashboard operations
 - `/api/category` - Category management
 - `/api/products` - Product CRUD operations
-
-## Build
-
-```bash
-npm run build
-```
